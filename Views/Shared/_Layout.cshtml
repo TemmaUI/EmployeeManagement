@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employees Management System</title>
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <style>
+        .navbar-custom {
+            background-color: #343a40;
+        }
+
+        .navbar-nav .nav-item .nav-link {
+            color: white;
+        }
+
+            .navbar-nav .nav-item .nav-link:hover {
+                color: #ccc;
+            }
+
+        .content-wrapper {
+            margin-top: 60px;
+        }
+
+        .sidebar {
+            background-color: #f8f9fa;
+            padding: 15px;
+            min-height: 100vh; /* Ensure sidebar extends to the bottom */
+        }
+
+            .sidebar .nav-link {
+                color: #343a40;
+            }
+
+        body, html {
+            height: 100%; /* Ensure the body and html take full height */
+        }
+
+        .container-fluid {
+            height: 100%; /* Ensure the container takes full height */
+        }
+
+        .row {
+            height: 100%; /* Ensure the row takes full height */
+        }
+
+        .col-md-2, .col-md-10 {
+            height: 100%; /* Ensure columns take full height */
+        }
+
+        .nav-treeview {
+            padding-left: 15px;
+        }
+
+        .nav-item .collapse-toggle {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Home/Dashboard">EMS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Home/Privacy">Privacy</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Identity/Account/Login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Identity/Account/Register">Register</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid content-wrapper">
+        <div class="row">
+            <div class="col-md-2 sidebar">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Home/Dashboard">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Employees/Index">Employee</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link collapse-toggle" data-toggle="collapse" href="#leaveApplicationMenu" role="button" aria-expanded="false" aria-controls="leaveApplicationMenu">
+                            Leave Application <i class="fas fa-chevron-right"></i>
+                        </a>
+                        <div class="collapse" id="leaveApplicationMenu">
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/Leave_Applications/Submitted_Applications">Submitted_Applications</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/Leave_Applications/Approved_Applications">Approved_Applications</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/Leave_Applications/Verified_Applications">Verified_Applications</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-10">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.collapse').on('show.bs.collapse', function () {
+                $(this).prev('.collapse-toggle').find('.fa-chevron-right').removeClass('fa-chevron-right').addClass('fa-chevron-down');
+            }).on('hide.bs.collapse', function () {
+                $(this).prev('.collapse-toggle').find('.fa-chevron-down').removeClass('fa-chevron-down').addClass('fa-chevron-right');
+            });
+        });
+    </script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
