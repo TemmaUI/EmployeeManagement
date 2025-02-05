@@ -20,9 +20,22 @@ namespace EmployeesManagement.Controllers
         }
 
         // GET: Employees
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search)
         {
-            return View(await _context.Employees.ToListAsync());
+            var employees = from e in _context.Employees
+                            select e;
+
+            if (!String.IsNullOrEmpty(search))
+            {
+                employees = employees.Where(e => e.FirstName.ToLower().Contains(search.ToLower()) ||
+                                                 e.LastName.ToLower().Contains(search.ToLower()) ||
+                                                 e.EmployeeNumber.ToLower().Contains(search.ToLower()));
+            }
+
+            var employeeList = await employees.ToListAsync();
+            ViewBag.NoEmployeesFound = employeeList.Count == 0 && !String.IsNullOrEmpty(search);
+
+            return View(employeeList);
         }
 
         // GET: Employees/Details/5
@@ -50,8 +63,6 @@ namespace EmployeesManagement.Controllers
         }
 
         // POST: Employees/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Employee employee)
@@ -84,8 +95,6 @@ namespace EmployeesManagement.Controllers
         }
 
         // POST: Employees/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,EmployeeNumber,FirstName,MiddleName,LastName,PhoneNumber,EmailAddress,DateOfBirth,Department,Designation,CreatedById,CreatedOn,ModifiedById,ModifiedOn")] Employee employee)
